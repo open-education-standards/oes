@@ -1,0 +1,43 @@
+name: "OES spec CI"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "schemas/**"
+      - "conformance/**"
+      - "scripts/**"
+      - "site/**"
+      - ".github/workflows/spec-ci.yml"
+  pull_request:
+    paths:
+      - "schemas/**"
+      - "conformance/**"
+      - "scripts/**"
+      - "site/**"
+      - ".github/workflows/spec-ci.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Conformance fixtures behave as expected
+        run: npm run conformance
+
+      - name: Shared schema definitions stay in sync
+        run: npm run check-shared-definitions
+
+      - name: Docs site references only current schema versions
+        run: npm run check-doc-schema-versions
+
+      - name: Docs site builds clean
+        run: npm run docs:build
