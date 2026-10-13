@@ -108,6 +108,12 @@ own SHA-256, sorted by path. Hashing a listing rather than an archive
 keeps the digest independent of tar/zip choices, file ordering, and
 timestamps — two people packaging the same directory get the same digest.
 
+Precisely: take every file except `package.json` (exactly the files in
+`files`, when present); write one line per file, `{sha256 as 64 lowercase
+hex}  {path relative to the root, / separators}\n`; sort the lines by the
+paths' UTF-8 bytes; the digest is `sha256-` plus the lowercase hex SHA-256
+of that UTF-8 text. Each line is the format `sha256sum` prints.
+
 It covers **every file**, prose and images included. Per-document
 `content_hash` covers one JSON document at a time and notably does not
 cover prose held in a separate file; the package digest is the only
@@ -129,8 +135,23 @@ A bundle MUST be derivable from the package alone, MUST record the
 package holds outside learner-facing documents. Bundling is a transport
 optimisation, never a change in what a learner may see.
 
-An asset's `url` may be absolute or relative to the bundle's own URL; a
-bundle served by a hub SHOULD use URLs under the hub.
+**References.** Each reference the bundle resolves (a course's
+`modules[]`, a module's `lessons[]`, a lesson's `items[]`, a set's
+`questions[]` including pool candidates and group parts, and a question's
+`stimulus`) keeps its fields, but its `path` or `*_url` is replaced by
+`ref`, the `{type}:{id}` key of the referenced document. Two different
+documents that would share a key are an error. `related[]`,
+`references[]` and `prerequisites` are not resolved.
+
+**Paths.** Every relative path in a bundled document (relative links and
+images in Markdown prose, a caption's `path`, `local_path`, a diagram's
+`image`, a `related[]` entry's `path`) is rewritten relative to the
+bundle's own URL, and each file it points at is listed once in `assets`.
+A path leaving the package root is an error. A bundle served by a hub
+SHOULD use URLs under the hub.
+
+**Answer keys.** A question's `answer_key` becomes `{ "withheld": true }`:
+the consumer learns the question is graded and nothing else.
 
 ## 7. Hubs
 
@@ -147,7 +168,7 @@ hubs.
 **Files.** Only `{base}/index.json` has a fixed location. The recommended
 layout is `packages/{namespace}/{name}.json` for each package and
 `packages/{namespace}/{name}/{version}/` for each version's
-`package.json`, `bundle.json` and `assets/`. URLs inside hub documents are
+`package.json`, `bundle.json` and `files/` (the package's own files). URLs inside hub documents are
 relative to the document that contains them unless absolute, so a hub can
 be copied or moved without rewriting files.
 
@@ -168,10 +189,13 @@ be copied or moved without rewriting files.
 | `opk_version` | string | yes | Any `0.2.x`. |
 | `kind` | string | yes | Always `"hub-package"`. |
 | `name` | string | yes | `{namespace}/{package}`. |
-| `versions` | object[] | yes | Every version ever published, each once: `{ version, digest, published_at?, manifest, bundle, yanked?, yanked_reason? }`. |
+| `versions` | object[] | yes | Every version ever published, each once: `{ version, digest, published_at?, manifest, bundle, bundle_sha256, files, yanked?, yanked_reason? }`. `bundle_sha256` is the SHA-256 of the bundle file's bytes; `files` is the directory holding the package's own files, where the bundle's relative URLs resolve. |
 
 ### Rules
 
+- Everything on a public hub is public, including every package file. A
+  package's `answer_key` files are published with it, so graded content
+  that must stay secret does not belong on a public hub.
 - Package identity is hub plus name; the same name on two hubs is two
   packages.
 - A published version's `digest` MUST never change and MUST equal the
@@ -182,7 +206,8 @@ be copied or moved without rewriting files.
 - Dependencies resolve within the same hub.
 - A public hub MUST be served over HTTPS with
   `Access-Control-Allow-Origin: *`.
-- A consumer MUST verify a package against its `digest` before use, may
+- A consumer MUST verify a fetched bundle against `bundle_sha256`, and
+  fetched package files against `files` and `digest`, before use; it may
   cache manifests and bundles indefinitely by digest, SHOULD revalidate
   `index.json` and hub package documents, and MUST NOT let one failing hub
   stop it using the others.

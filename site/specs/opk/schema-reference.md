@@ -96,6 +96,8 @@ Each entry in `versions`:
 | `published_at` | string | no | `YYYY-MM-DD`. |
 | `manifest` | string | **yes** | The version's `package.json`, relative to this document or absolute. |
 | `bundle` | string | **yes** | The version's [bundled payload](./bundled-payload), relative to this document or absolute. |
+| `bundle_sha256` | string | **yes** | `sha256-{hex}` of the bundle file's bytes, so a consumer can verify exactly what it fetched. |
+| `files` | string | **yes** | The directory holding the package's own files at their package-relative paths; the bundle's relative URLs resolve here. Relative to this document, or absolute. |
 | `yanked` | boolean | no | Hidden from browsing and never chosen for a new import, but still fetchable. Default `false`. |
 | `yanked_reason` | string | no | Why, for display. |
 

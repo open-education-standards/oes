@@ -87,6 +87,27 @@ path. Hashing a listing rather than an archive keeps the digest
 independent of tar/zip choices, file ordering, and timestamps — two people
 packaging the same directory get the same digest.
 
+Precisely:
+
+1. Take every file in the package **except `package.json`** (which
+   carries the digest, so cannot be covered by it). When `files` is
+   present, these are exactly the files it lists.
+2. For each, write one line: the file's SHA-256 as 64 lowercase hex
+   characters, two spaces, its path relative to the package root using
+   `/` separators, then a line feed (`\n`).
+3. Sort the lines by path, comparing the paths' UTF-8 bytes.
+4. The digest is `sha256-` followed by the lowercase hex SHA-256 of the
+   resulting text, encoded as UTF-8.
+
+Each line has the format the common `sha256sum` tool prints, so in a
+package directory holding nothing but the package, a digest can be
+checked by hand (the output is the hex part):
+
+```bash
+find . -type f ! -path ./package.json -printf '%P\0' | LC_ALL=C sort -z \
+  | xargs -0 sha256sum | sha256sum
+```
+
 The digest covers **every file**, including prose and images. That is
 deliberate: per-document `content_hash` covers one JSON document at a
 time, and notably [does not cover prose held in a separate

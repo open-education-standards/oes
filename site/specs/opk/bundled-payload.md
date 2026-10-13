@@ -76,6 +76,50 @@ point; a per-question bundle just reintroduces N+1 with extra steps.
 stored once and referenced by key from anywhere. The nesting that OES uses
 on disk is expressed by those keys rather than by duplication.
 
+## References inside a bundle
+
+Every reference the bundle resolves keeps all of its fields except its
+address. The `path` or `*_url` is replaced by `ref`, the key of the
+referenced document in `documents`:
+
+```jsonc
+{ "id": "intro", "path": "modules/intro" }      // in course.json
+{ "id": "intro", "ref": "module:intro" }        // in the bundle
+```
+
+This applies to a course's `modules[]`, a module's `lessons[]`, a
+lesson's `items[]`, a set's `questions[]` (direct entries, pool
+candidates and group parts), and a question's `stimulus`.
+
+- The document types used in keys are `course`, `module`, `lesson`,
+  `article`, `video`, `resource`, `set`, `question` and `stimulus`, and
+  the id is the referenced document's own `id`.
+- Two references to the same document produce one entry. Two **different**
+  documents that would share a key are an error: a bundler MUST refuse
+  rather than pick one.
+- References that are suggestions rather than content (`related[]`,
+  `references[]`, a course's `prerequisites`) are not resolved; see
+  below for their paths.
+
+## Paths and links
+
+Inlined documents lose the folder they came from, so every relative path
+in a bundled document is rewritten to be **relative to the bundle's own
+URL**:
+
+- relative links and images in Markdown prose (resolved first against
+  the folder of the document the prose came from, as the [Markdown
+  Conventions](/markdown-conventions) require);
+- file fields: a caption track's `path`, `local_path`, a diagram's
+  `image`, and a `related[]` entry's `path`.
+
+Every file these point at is listed once in `assets`. A path that would
+leave the package root is an error.
+
+How the package's files are laid out relative to the bundle is up to
+whoever serves it; a [hub](./hubs) serves them under `files/` next to the
+bundle.
+
 ## Rules
 
 - A bundle **MUST** be derivable from the package alone. It carries no
@@ -86,10 +130,12 @@ on disk is expressed by those keys rather than by duplication.
   consumer can tell which release it holds and a cache can be invalidated
   precisely.
 - A bundle **MUST NOT** contain answer keys that the package holds
-  outside the learner-facing documents. A secured question stays secured:
-  bundling is a transport optimisation, never a change in what a learner
-  may see. This is the one rule whose violation is a security bug rather
-  than a correctness one.
+  outside the learner-facing documents, and **MUST NOT** say where they
+  are: a question's `answer_key` becomes `{ "withheld": true }`, which
+  tells a consumer the question is graded and nothing else. A secured
+  question stays secured: bundling is a transport optimisation, never a
+  change in what a learner may see. This is the one rule whose violation
+  is a security bug rather than a correctness one.
 - A consumer **SHOULD** treat a bundle as a cache of the package, not as
   the source of truth. The package is canonical.
 - An asset's `url` may be absolute or relative to the bundle's own URL. A

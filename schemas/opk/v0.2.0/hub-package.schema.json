@@ -49,7 +49,9 @@
         "version",
         "digest",
         "manifest",
-        "bundle"
+        "bundle",
+        "bundle_sha256",
+        "files"
       ],
       "additionalProperties": true,
       "patternProperties": {
@@ -80,6 +82,16 @@
           "type": "string",
           "minLength": 1,
           "description": "The version's bundled payload. Relative to this document, or absolute."
+        },
+        "bundle_sha256": {
+          "type": "string",
+          "pattern": "^sha256-[A-Fa-f0-9]{64}$",
+          "description": "SHA-256 of the bundle file's bytes, so a consumer can verify exactly what it fetched."
+        },
+        "files": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The directory holding the package's own files at their package-relative paths, exactly as listed in the manifest's `files`. Relative to this document, or absolute. Relative URLs inside the bundle resolve here."
         },
         "yanked": {
           "type": "boolean",

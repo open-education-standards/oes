@@ -30,7 +30,7 @@ rules below are written so that adding it breaks nothing:
 {base}/packages/{namespace}/{name}.json                   one package, every version
 {base}/packages/{namespace}/{name}/{version}/package.json the version's OPK manifest
 {base}/packages/{namespace}/{name}/{version}/bundle.json  the version's bundled payload
-{base}/packages/{namespace}/{name}/{version}/assets/…     images and other assets
+{base}/packages/{namespace}/{name}/{version}/files/…      the package's own files
 ```
 
 Only `index.json` has a fixed location. Every other file is found by
@@ -90,7 +90,9 @@ Each package has one document listing every version ever published.
       "digest": "sha256-…",
       "published_at": "2026-10-13",
       "manifest": "databases/2.1.0/package.json",
-      "bundle": "databases/2.1.0/bundle.json"
+      "bundle": "databases/2.1.0/bundle.json",
+      "bundle_sha256": "sha256-…",
+      "files": "databases/2.1.0/files/"
     },
     {
       "version": "2.0.0",
@@ -98,6 +100,8 @@ Each package has one document listing every version ever published.
       "published_at": "2026-09-01",
       "manifest": "databases/2.0.0/package.json",
       "bundle": "databases/2.0.0/bundle.json",
+      "bundle_sha256": "sha256-…",
+      "files": "databases/2.0.0/files/",
       "yanked": true,
       "yanked_reason": "Answer key in question 4 was wrong; use 2.1.0."
     }
@@ -105,8 +109,21 @@ Each package has one document listing every version ever published.
 }
 ```
 
+- **`files`** is the directory holding the package's own files, exactly
+  as listed in the manifest's `files`, at their package-relative paths.
+  Relative URLs inside the bundle resolve there, so it SHOULD be the
+  `files/` directory next to the bundle.
+- **`bundle_sha256`** is the SHA-256 of the bundle file's bytes, so a
+  consumer can verify the exact bytes it fetched. The package `digest`
+  identifies the release; `bundle_sha256` checks the download.
+
 ## Rules
 
+- **Everything on a public hub is public.** That includes every file in a
+  package, so a package whose questions keep their answers in an
+  `answer_key` file publishes those answers too. Bundles still withhold
+  answer keys, but graded content that must stay secret does not belong
+  on a public hub.
 - **Package identity is hub plus name.** Two hubs may each list an
   `acme/databases`; they are different packages. A consumer **MUST** keep
   track of which hub a package came from.
@@ -124,14 +141,17 @@ Each package has one document listing every version ever published.
 - **Open access.** A public hub **MUST** be served over HTTPS with
   `Access-Control-Allow-Origin: *`, so browser-based apps can read it.
 - **Assets belong to the hub.** A bundle served by a hub **SHOULD** point
-  its `assets[].url` at files under the hub, so a future version can
-  protect them along with everything else. Videos and documents stay
-  external, as [OVF](/specs/ovf/) and [ORF](/specs/orf/) already require.
+  its `assets[].url` at the package's files under the hub, so a future
+  version can protect them along with everything else. Videos and
+  documents stay external, as [OVF](/specs/ovf/) and [ORF](/specs/orf/)
+  already require.
 
 ## Consumers
 
-- **Verify before use.** A consumer **MUST** check a fetched package
-  against its `digest` before using it.
+- **Verify before use.** A consumer **MUST** check a fetched bundle
+  against `bundle_sha256` before using it. A consumer that fetches the
+  package's files **MUST** check each against the manifest's `files` and
+  the whole against `digest`.
 - **Cache by digest.** Manifests and bundles are immutable, so a consumer
   may cache them indefinitely, keyed by digest. `index.json` and hub
   package documents change, so a consumer **SHOULD** revalidate them.
