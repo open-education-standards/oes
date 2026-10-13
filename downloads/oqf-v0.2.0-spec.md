@@ -119,6 +119,7 @@ constraint since it's addressed by its full path/URL, not derived from it.
 | `topics` | string[] | no | Subject-matter topics. |
 | `companies` | string[] | no | Associated companies, if any. |
 | `time_limit_mins` | number | no | Suggested time limit. |
+| `max_attempts` | integer | no | Suggested attempt limit, same advisory status as `time_limit_mins`. Absent means unlimited. |
 | `hints` | string[] | no | Ordered least to most revealing. |
 | `explanation` | string | no | Shown after attempting. |
 | `references` | array | no | Cited sources or further reading — each entry a bare URL string, or `{title, type?, authors?, url?, isbn?, doi?, publisher?, year?, note?}` for a source with no single URL (e.g. a print book via `isbn`). Same shape as OAF's `references`. |

@@ -2,7 +2,7 @@
 
 <div class="oaf-badges">
 
-**Version:** 0.1.0 &nbsp;·&nbsp; **Status:** Draft &nbsp;·&nbsp; **License:** CC BY 4.0
+**Version:** 0.2.0 &nbsp;·&nbsp; **Status:** Draft &nbsp;·&nbsp; **License:** CC BY 4.0
 
 <a class="oaf-download-btn" href="/oes/downloads/oaf-v0.2.0-spec.md" download>⬇ Download full spec (single Markdown file)</a>
 

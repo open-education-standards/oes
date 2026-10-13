@@ -101,9 +101,10 @@ specs. They are duplicated into each schema so every schema file stands
 alone, and `npm run check-shared-definitions` fails CI if the copies ever
 drift apart.
 
-**Schema URLs on the site must point at current versions.**
+**The site must point at current versions.**
 `npm run check-doc-schema-versions` fails CI if a page references an
-outdated schema, except where an old version is shown on purpose.
+outdated schema, or if a spec's version badge or download link isn't the
+current version, except where an old version is shown on purpose.
 
 **Editor support without a global mapping.** Documents may carry a
 `$schema` hint, and the docs give a workspace `.vscode/settings.json`.

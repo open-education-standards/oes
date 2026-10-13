@@ -72,6 +72,7 @@ whether local (`path`) or external (`question_url`).
 | `status` | string | no | `"draft"`/`"published"`/`"deprecated"`. Absent means published. |
 | `tags` | string[] | no | |
 | `language` | string | no | BCP 47. |
+| `source` | object | no | Where this set was originally sourced or adapted from, if imported. See Versioning & Conformance's Content Provenance section. |
 | `questions` | object[] | yes | Minimum 1, ordered. Each entry is a direct reference, a pool, or a multi-part group. See below. |
 
 `questions[]` entries — direct reference:

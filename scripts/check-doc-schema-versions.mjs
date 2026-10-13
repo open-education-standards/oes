@@ -1,5 +1,5 @@
-// Every schema URL or path on the docs site must point at the *current*
-// version of that schema (per lib/current-schemas.mjs), unless it is
+// Every schema URL or path on the docs site, and every spec's version
+// badge and download link, must point at the *current* version of that schema (per lib/current-schemas.mjs), unless it is
 // listed in INTENTIONAL_PINS below.
 //
 // Pages like Editor Setup promise "the right URL for every OES document
@@ -70,10 +70,34 @@ for await (const abs of markdownFiles(SITE)) {
   });
 }
 
+// Each spec's landing page states its version in a badge and links the
+// matching single-file download. Both must name the current version.
+const currentVersionBySpec = new Map(
+  Object.values(CURRENT_SCHEMAS).map((path) => {
+    const [, spec, version] = path.match(/^schemas\/([a-z]+)\/v([\d.]+)\//);
+    return [spec, version];
+  }),
+);
+for (const [spec, version] of currentVersionBySpec) {
+  const file = `site/specs/${spec}/index.md`;
+  const text = await readFile(join(ROOT, file), "utf8");
+  const badge = text.match(/\*\*Version:\*\*\s*([\d.]+)/)?.[1];
+  checked++;
+  if (badge !== version) {
+    problems.push(`${file} — version badge says ${badge ?? "nothing"}; current is ${version}`);
+  }
+  for (const [, linked] of text.matchAll(new RegExp(`downloads/${spec}-v([\\d.]+)-spec\\.md`, "g"))) {
+    checked++;
+    if (linked !== version) {
+      problems.push(`${file} — download link points at v${linked}; current is v${version}`);
+    }
+  }
+}
+
 if (problems.length) {
   for (const p of problems) console.error(`FAIL — ${p}`);
-  console.error(`\n${problems.length} stale schema reference(s) on the docs site.`);
+  console.error(`\n${problems.length} stale version reference(s) on the docs site.`);
   process.exitCode = 1;
 } else {
-  console.log(`All ${checked} schema references on the docs site point at the current version.`);
+  console.log(`All ${checked} schema references and version badges on the docs site are current.`);
 }

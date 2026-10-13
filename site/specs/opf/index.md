@@ -2,7 +2,7 @@
 
 <div class="opf-badges">
 
-**Version:** 0.2.0 &nbsp;·&nbsp; **Status:** Draft &nbsp;·&nbsp; **License:** CC BY 4.0
+**Version:** 0.3.0 &nbsp;·&nbsp; **Status:** Draft &nbsp;·&nbsp; **License:** CC BY 4.0
 
 <a class="opf-download-btn" href="/oes/downloads/opf-v0.3.0-spec.md" download>⬇ Download full spec (single Markdown file)</a>
 

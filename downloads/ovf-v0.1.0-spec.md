@@ -65,7 +65,8 @@ Co-located (inside an OCF lesson's own folder, under
 | `downloadable` | boolean | no, default `false` | Whether `video_url`'s file may be downloaded and bundled into an exported package. Only `true` when you hold redistribution rights. |
 | `local_path` | string | no | Filename (no subdirectories), one of `.mp4`/`.webm`/`.mov`/`.mkv`, populated by tooling once a `downloadable: true` video has been fetched. |
 | `references` | array | no | Cited sources this video's content is based on — same shape as OAF's `references`. |
-| `related` | array | no | Suggested material for a learner who wants to go further after this video — this video's own "watch next." `{title, type, path\|video_lesson_url\|article_url\|set_url\|course_url\|url, content_hash?, note?}`, exactly one address field. Use `video_lesson_url`/`path` for a suggestion that's itself an OVF `video.json`, or a bare `url` for anything external (e.g. a YouTube link). |
+| `related` | array | no | Suggested material for a learner who wants to go further after this video — this video's own "watch next." `{title, type, path\|video_lesson_url\|article_url\|set_url\|course_url\|resource_url\|url, content_hash?, note?}`, exactly one address field. Use `video_lesson_url`/`path` for a suggestion that's itself an OVF `video.json`, or a bare `url` for anything external (e.g. a YouTube link). |
+| `source` | object | no | Where this video was originally sourced or adapted from, if imported. See Versioning & Conformance's Content Provenance section. |
 
 `transcript.md` is optional plain Markdown prose (no inline timestamps —
 use `chapters` for that).
