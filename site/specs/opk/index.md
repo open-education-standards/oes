@@ -2,9 +2,9 @@
 
 <div class="opk-badges">
 
-**Version:** 0.1.0 &nbsp;·&nbsp; **Status:** Draft &nbsp;·&nbsp; **License:** CC BY 4.0
+**Version:** 0.2.0 &nbsp;·&nbsp; **Status:** Draft &nbsp;·&nbsp; **License:** CC BY 4.0
 
-<a class="opk-download-btn" href="/oes/downloads/opk-v0.1.0-spec.md" download>⬇ Download full spec (single Markdown file)</a>
+<a class="opk-download-btn" href="/oes/downloads/opk-v0.2.0-spec.md" download>⬇ Download full spec (single Markdown file)</a>
 
 </div>
 
@@ -63,8 +63,9 @@ own API, not to the package format.
 
 ## What OPK is not
 
-- **Not a transport.** It says nothing about HTTP, and a package is
-  perfectly valid sitting in a directory.
+- **Not a transport.** A package says nothing about HTTP and is perfectly
+  valid sitting in a directory. [Hubs](./hubs) are the one place OPK
+  touches the network, and they are only static files.
 - **Not an archive format.** A package is OES files plus a manifest, not
   a new container. Tar or zip them however you like.
 - **Not an auth or identity system.** Who may publish `acme/*` is a
@@ -77,3 +78,4 @@ own API, not to the package format.
 - [Package Structure](./file-structure) — what a package contains
 - [Schema Reference](./schema-reference) — `package.json`'s fields
 - [The Bundled Payload](./bundled-payload) — what a registry serves
+- [Hubs](./hubs) — static files that list packages for anyone to browse and import

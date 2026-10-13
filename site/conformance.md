@@ -128,7 +128,8 @@ compatibility table on this page:
 
 | OES version | OCF | OPF | OQF | OAF | OVF | ORF | OPK |
 |---|---|---|---|---|---|---|---|
-| `0.2.0` (current, pre-release) | `0.3.x` | `0.3.x` | `0.2.x` | `0.2.x` | `0.1.x` | `0.1.x` | `0.1.x` |
+| `0.3.0` (current, pre-release) | `0.3.x` | `0.3.x` | `0.2.x` | `0.2.x` | `0.1.x` | `0.1.x` | `0.2.x` |
+| `0.2.0` | `0.3.x` | `0.3.x` | `0.2.x` | `0.2.x` | `0.1.x` | `0.1.x` | `0.1.x` |
 | `0.1.0` | `0.3.x` | `0.2.x` | `0.1.x` | `0.1.x` | `0.1.x` | `0.1.x` | — |
 
 The OES version bumps whenever **any** sub-spec changes, even if the
@@ -162,7 +163,7 @@ mandatory base plus named capabilities a consumer declares alongside it.
 | **+Graded** | `answer_key` handling | Secured questions, where the answer lives outside the document a learner can fetch. Requires **+Practice**. |
 
 A consumer states its profile as Core plus the capabilities it has, e.g.
-"OES 0.2.0 Core +Practice" or "OES 0.2.0 Core +Media +Practice +Graded".
+"OES 0.3.0 Core +Practice" or "OES 0.3.0 Core +Media +Practice +Graded".
 
 [OPK](/specs/opk/) sits outside this table on purpose. Profiles describe
 what a consumer can *render*; OPK describes how content is *distributed*.

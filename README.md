@@ -22,7 +22,7 @@ Browse the full docs site: **https://open-education-standards.github.io/oes/**
 | **OAF** — Open Article Format | A single written article — real authored content, not a link | 0.2.0 | Draft | [Read the spec](https://open-education-standards.github.io/oes/specs/oaf/) |
 | **OVF** — Open Video Format | A single video lesson: metadata, transcript, and chapters around an externally-hosted video | 0.1.0 | Draft | [Read the spec](https://open-education-standards.github.io/oes/specs/ovf/) |
 | **ORF** — Open Resource Format | A single reference document (PDF, ebook, paper): metadata, page count, and a table of contents around an externally-hosted file | 0.1.0 | Draft | [Read the spec](https://open-education-standards.github.io/oes/specs/orf/) |
-| **OPK** — Open Package Format | A shareable, versioned unit of OES content: a namespaced name, a digest, a manifest, and the bundled payload a registry serves | 0.1.0 | Draft | [Read the spec](https://open-education-standards.github.io/oes/specs/opk/) |
+| **OPK** — Open Package Format | A shareable, versioned unit of OES content: a namespaced name, a digest, a manifest, the bundled payload a registry serves, and hubs that list packages for anyone to import | 0.2.0 | Draft | [Read the spec](https://open-education-standards.github.io/oes/specs/opk/) |
 
 Each spec also has a JSON Schema (in [`schemas/`](./schemas)) and a single
 downloadable Markdown file with the complete spec (in

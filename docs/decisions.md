@@ -65,6 +65,14 @@ name, version, manifest, digest and bundled payload. Authentication,
 search, ranking, quotas and deprecation policy are a registry's own
 decisions and are deliberately absent.
 
+**Hubs are static files, public for now.** A hub is an `index.json` plus
+one document per package, served over HTTPS, so anyone can run one by
+publishing a folder: no server, database or accounts. Packages are
+identified by hub plus name, published versions never change, and bad
+versions are yanked rather than deleted. Authentication is left for a
+later version; a hub that needs it answers `401`/`403` today, so adding
+it breaks no existing consumer.
+
 ## Versioning and compatibility
 
 **One version per spec, plus an OES release.** Each document carries its

@@ -21,7 +21,9 @@ export const CURRENT_SCHEMAS = {
   opf: "schemas/opf/v0.3.0/set.schema.json",
   ovf: "schemas/ovf/v0.1.0/video.schema.json",
   orf: "schemas/orf/v0.1.0/resource.schema.json",
-  opk: "schemas/opk/v0.1.0/package.schema.json",
+  "opk.package": "schemas/opk/v0.2.0/package.schema.json",
+  "opk.hub": "schemas/opk/v0.2.0/hub.schema.json",
+  "opk.hub-package": "schemas/opk/v0.2.0/hub-package.schema.json",
   "oqf.question": "schemas/oqf/v0.2.0/question.schema.json",
   "oqf.stimulus": "schemas/oqf/v0.2.0/stimulus.schema.json",
 };

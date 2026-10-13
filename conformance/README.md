@@ -26,18 +26,20 @@ npm run check-shared-definitions
 
 ```
 conformance/
-├── oqf/{valid,invalid}/*.json          — one fixture per question type (+ invalid cases)
-├── opf/{valid,invalid}/*.json          — co-located and external question refs
+├── oqf/{valid,invalid}/{question,stimulus}/*.json   — one fixture per question type (+ invalid cases)
+├── opf/{valid,invalid}/*.json                       — direct refs, pools and multi-part groups
 ├── oaf/{valid,invalid}/*.json
-├── ovf/{valid,invalid}/*.json          — streaming-only and downloadable+local cases
-├── orf/{valid,invalid}/*.json          — link-only and downloadable+local cases
+├── ovf/{valid,invalid}/*.json                       — streaming-only and downloadable+local cases
+├── orf/{valid,invalid}/*.json                       — link-only and downloadable+local cases
+├── opk/{valid,invalid}/{package,hub,hub-package}/*.json
 └── ocf/{valid,invalid}/{course,module,lesson}/*.json
 ```
 
-OCF's fixtures are nested one level deeper than the others because a
-single schema file (`course.schema.json`) covers three document types via
-`#/definitions/{course,module,lesson}` — the subfolder name tells
-`scripts/validate-conformance.mjs` which definition to validate against.
+Where a spec has more than one document type, its fixtures are nested one
+level deeper, and the subfolder name tells
+`scripts/validate-conformance.mjs` what to validate against: a separate
+schema file for OQF and OPK, or one of `#/definitions/{course,module,lesson}`
+in OCF's single `course.schema.json`.
 
 ## Adding a fixture
 

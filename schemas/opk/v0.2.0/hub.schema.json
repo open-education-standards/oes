@@ -1,0 +1,127 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://open-education-standards.github.io/oes/schemas/opk/v0.2.0/hub.schema.json",
+  "title": "OPK Hub Index",
+  "description": "Schema for index.json, the entry document of an OES hub: a set of static files, served over HTTPS, that lists packages any consumer can browse and import. Open Package Format (OPK), version 0.2.0.",
+  "type": "object",
+  "required": [
+    "opk_version",
+    "kind",
+    "hub",
+    "packages"
+  ],
+  "additionalProperties": true,
+  "patternProperties": {
+    "^x_[a-z0-9_]+$": {}
+  },
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional editor/tooling hint. Ignored by parsers."
+    },
+    "opk_version": {
+      "type": "string",
+      "pattern": "^0\\.2\\.\\d+$",
+      "description": "Any 0.2.x patch release of OPK."
+    },
+    "kind": {
+      "const": "hub",
+      "description": "Identifies this document as a hub index."
+    },
+    "hub": {
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "additionalProperties": true,
+      "patternProperties": {
+        "^x_[a-z0-9_]+$": {}
+      },
+      "description": "Describes the hub itself, for display.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "homepage": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A human-readable page for the hub. Relative to index.json, or absolute."
+        }
+      }
+    },
+    "moved_to": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Set when the hub has relocated: the absolute URL of its new index.json. Static hosts can't redirect a JSON file, so a consumer MUST follow this field and SHOULD update the hub URL it has stored."
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/package_summary"
+      },
+      "description": "One entry per package with at least one version that is not yanked. Order carries no meaning."
+    }
+  },
+  "definitions": {
+    "package_summary": {
+      "type": "object",
+      "required": [
+        "name",
+        "title",
+        "latest",
+        "url"
+      ],
+      "additionalProperties": true,
+      "patternProperties": {
+        "^x_[a-z0-9_]+$": {}
+      },
+      "description": "Enough about a package to list and search it; everything else is in its hub package document.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*/[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "{namespace}/{package}, both kebab-case. The namespace is what a registry grants ownership of; OPK takes no position on how."
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "entry_type": {
+          "type": "string",
+          "enum": [
+            "course",
+            "set",
+            "article",
+            "video",
+            "resource"
+          ],
+          "description": "The type of the package's entry document."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "latest": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$",
+          "description": "The highest version that is not yanked."
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The package's hub package document. Relative to index.json, or absolute."
+        }
+      }
+    }
+  }
+}

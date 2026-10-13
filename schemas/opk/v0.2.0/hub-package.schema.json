@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://open-education-standards.github.io/oes/schemas/opk/v0.2.0/hub-package.schema.json",
+  "title": "OPK Hub Package",
+  "description": "Schema for a hub package document: every published version of one package on an OES hub, with where to fetch its manifest and bundled payload. Open Package Format (OPK), version 0.2.0.",
+  "type": "object",
+  "required": [
+    "opk_version",
+    "kind",
+    "name",
+    "versions"
+  ],
+  "additionalProperties": true,
+  "patternProperties": {
+    "^x_[a-z0-9_]+$": {}
+  },
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional editor/tooling hint. Ignored by parsers."
+    },
+    "opk_version": {
+      "type": "string",
+      "pattern": "^0\\.2\\.\\d+$",
+      "description": "Any 0.2.x patch release of OPK."
+    },
+    "kind": {
+      "const": "hub-package",
+      "description": "Identifies this document as a hub package document."
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*/[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "{namespace}/{package}, both kebab-case. The namespace is what a registry grants ownership of; OPK takes no position on how."
+    },
+    "versions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/published_version"
+      },
+      "description": "Every version ever published, yanked ones included. Each version appears once."
+    }
+  },
+  "definitions": {
+    "published_version": {
+      "type": "object",
+      "required": [
+        "version",
+        "digest",
+        "manifest",
+        "bundle"
+      ],
+      "additionalProperties": true,
+      "patternProperties": {
+        "^x_[a-z0-9_]+$": {}
+      },
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$",
+          "description": "SemVer for the package's content, independent of every spec version inside it. Major when an existing reference into this content would now mean something different."
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256-[A-Fa-f0-9]{64}$",
+          "description": "The package digest, exactly as in the version's manifest. Once published it MUST never change."
+        },
+        "published_at": {
+          "type": "string",
+          "format": "date",
+          "description": "Date the version was published (YYYY-MM-DD)."
+        },
+        "manifest": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The version's OPK manifest (package.json). Relative to this document, or absolute."
+        },
+        "bundle": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The version's bundled payload. Relative to this document, or absolute."
+        },
+        "yanked": {
+          "type": "boolean",
+          "default": false,
+          "description": "A yanked version stays fetchable, so anything already using it keeps working, but is hidden from browsing and MUST NOT be chosen for a new import."
+        },
+        "yanked_reason": {
+          "type": "string",
+          "description": "Why the version was yanked, for display."
+        }
+      }
+    }
+  }
+}

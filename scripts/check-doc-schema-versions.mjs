@@ -94,6 +94,21 @@ for (const [spec, version] of currentVersionBySpec) {
   }
 }
 
+// The spec tables on the landing page and in the README list each spec's
+// version too.
+for (const file of ["site/index.md", "README.md"]) {
+  const lines = (await readFile(join(ROOT, file), "utf8")).split("\n");
+  for (const [spec, version] of currentVersionBySpec) {
+    const row = lines.find((l) => l.startsWith("|") && l.includes(`/specs/${spec}/`));
+    if (!row) continue;
+    checked++;
+    const listed = row.match(/\|\s*(\d+\.\d+\.\d+)\s*\|\s*Draft\s*\|/)?.[1];
+    if (listed !== version) {
+      problems.push(`${file} — ${spec.toUpperCase()} row lists ${listed ?? "no version"}; current is ${version}`);
+    }
+  }
+}
+
 if (problems.length) {
   for (const p of problems) console.error(`FAIL — ${p}`);
   console.error(`\n${problems.length} stale version reference(s) on the docs site.`);

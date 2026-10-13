@@ -56,10 +56,10 @@ point; a per-question bundle just reintroduces N+1 with extra steps.
 
 ```json
 {
-  "opk_version": "0.1.0",
+  "opk_version": "0.2.0",
   "kind": "bundle",
   "package": { "name": "acme/databases", "version": "2.1.0", "digest": "sha256-…" },
-  "generated_from": { "oes_version": "0.2.0" },
+  "generated_from": { "oes_version": "0.3.0" },
   "entry": { "type": "course", "id": "databases" },
   "documents": {
     "course:databases": { "…": "the course.json content, references resolved to ids" },
@@ -92,6 +92,8 @@ on disk is expressed by those keys rather than by duplication.
   than a correctness one.
 - A consumer **SHOULD** treat a bundle as a cache of the package, not as
   the source of truth. The package is canonical.
+- An asset's `url` may be absolute or relative to the bundle's own URL. A
+  bundle served by a [hub](./hubs) SHOULD use URLs under the hub.
 
 ## Why this is specified at all
 

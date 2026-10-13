@@ -135,6 +135,7 @@ export default defineConfig({
             { text: 'Package Structure', link: '/specs/opk/file-structure' },
             { text: 'Schema Reference', link: '/specs/opk/schema-reference' },
             { text: 'The Bundled Payload', link: '/specs/opk/bundled-payload' },
+            { text: 'Hubs', link: '/specs/opk/hubs' },
           ],
         },
       ],
