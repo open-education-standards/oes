@@ -18,7 +18,7 @@ registry serves and what an app consumes.
 ```
 
 The middle column is the specification. The left is
-[tooling](https://www.npmjs.com/package/@inklyre/oes-authoring) and
+[tooling](https://www.npmjs.com/package/@open-education-standards/authoring) and
 appears nowhere in these specs. The right is this page.
 
 It is worth being precise about the middle column, because it is easy to

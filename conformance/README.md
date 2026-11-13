@@ -56,6 +56,6 @@ in OCF's single `course.schema.json`.
 This suite intentionally validates single-document shape only. It does
 **not** check cross-file referential integrity (e.g. that a `path` in one
 file actually resolves to a real file elsewhere, or that ids are unique
-across a whole tree) — that's [`@inklyre/oes-lint`](https://github.com/open-education-standards/oes-tooling/tree/main/packages/lint)'s
-job, built on top of [`@inklyre/oes-core`](https://github.com/open-education-standards/oes-tooling/tree/main/packages/core)'s
+across a whole tree) — that's [`@open-education-standards/lint`](https://github.com/open-education-standards/oes-tooling/tree/main/packages/lint)'s
+job, built on top of [`@open-education-standards/core`](https://github.com/open-education-standards/oes-tooling/tree/main/packages/core)'s
 `resolve()`, not something these fixtures claim to cover.

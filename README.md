@@ -35,15 +35,15 @@ every spec, at [**Versioning & Conformance**](https://open-education-standards.g
 
 This is the spec repo — schemas, docs, and conformance fixtures only, no
 publish pipeline of any kind. Reference tooling built on this spec
-(`@inklyre/oes-core`, `@inklyre/oes-lint`, `@inklyre/oes-import-youtube`,
-and `@inklyre/oes-schemas`) lives in a separate repo,
+(`@open-education-standards/core`, `@open-education-standards/lint`, `@open-education-standards/import-youtube`,
+and `@open-education-standards/schemas`) lives in a separate repo,
 **[open-education-standards/oes-tooling](https://github.com/open-education-standards/oes-tooling)** — kept
 apart so a spec-only change never touches the tooling's own history or
 release cadence, and so npm publish credentials never need to live in the
 one repo explicitly meant to welcome low-barrier outside contributions
 (typo fixes, clarifications). `oes-tooling` fetches the current schema
 content directly from this repo (a scheduled sync, not a push from here)
-and publishes `@inklyre/oes-schemas` on npm when it changes.
+and publishes `@open-education-standards/schemas` on npm when it changes.
 
 ```
 oes/
