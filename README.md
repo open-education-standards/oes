@@ -92,7 +92,7 @@ All specifications, schemas, and consolidated downloads
 (`schemas/`, `downloads/`, and the spec content in `site/`) are released
 under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) — free to
 use, adapt, and redistribute, even commercially, provided you credit
-OES/Inklyre. See [`LICENSE-SPEC`](./LICENSE-SPEC) for why attribution
+Open Education Standards. See [`LICENSE-SPEC`](./LICENSE-SPEC) for why attribution
 rather than public domain (CC0).
 
 The small amount of code in this repo (`scripts/`, spec-validation only —
@@ -101,4 +101,4 @@ see [`LICENSE`](./LICENSE). Reference tooling with real published
 packages lives in [`oes-tooling`](https://github.com/open-education-standards/oes-tooling),
 licensed independently there.
 
-Built and maintained by [Inklyre](https://github.com/inklyre).
+Built and maintained by the [Open Education Standards](https://github.com/open-education-standards) project.
